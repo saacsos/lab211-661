@@ -1,5 +1,6 @@
 package ku.cs.services;
 
+import ku.cs.models.Student;
 import ku.cs.models.StudentList;
 
 import java.io.*;
@@ -80,6 +81,41 @@ public class StudentListFileDatasource implements Datasource<StudentList> {
 
     @Override
     public void writeData(StudentList data) {
+        String filePath = directoryName + File.separator + fileName;
+        File file = new File(filePath);
 
+        // เตรียม object ที่ใช้ในการเขียนไฟล์
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+                fileOutputStream,
+                StandardCharsets.UTF_8
+        );
+        BufferedWriter buffer = new BufferedWriter(outputStreamWriter);
+
+        try {
+            // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
+            for (Student student : data.getStudents()) {
+                String line = student.getId() + "," + student.getName() + "," + student.getScore();
+                buffer.append(line);
+                buffer.append("\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                buffer.flush();
+                buffer.close();
+            }
+            catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
