@@ -12,10 +12,10 @@ public class StudentList {
     public void addNewStudent(String id, String name) {
         id = id.trim();
         name = name.trim();
-        if (!id.equals("") && !name.equals("")) {
+        if (!id.isEmpty() && !name.isEmpty()) {
             Student exist = findStudentById(id);
             if (exist == null) {
-                students.add(new Student(id.trim(), name.trim()));
+                students.add(new Student(id, name));
             }
         }
     }
