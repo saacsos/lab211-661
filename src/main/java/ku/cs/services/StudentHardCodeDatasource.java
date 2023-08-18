@@ -2,7 +2,7 @@ package ku.cs.services;
 
 import ku.cs.models.StudentList;
 
-public class StudentHardCodeDatasource {
+public class StudentHardCodeDatasource implements Datasource<StudentList>{
 
     public StudentList readData() {
         StudentList list = new StudentList();
@@ -11,5 +11,10 @@ public class StudentHardCodeDatasource {
         list.addNewStudent("6410400003", "Third");
         list.addNewStudent("6410400004", "Fourth");
         return list;
+    }
+
+    @Override
+    public void writeData(StudentList data) {
+        
     }
 }
