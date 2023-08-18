@@ -4,17 +4,24 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ku.cs.services.FXRouter;
 
 import java.io.IOException;
 
 public class HelloApplication extends Application {
-    @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+        FXRouter.bind(this, stage, "Hello World", 1024, 768);
+        configRoute();
+        FXRouter.goTo("students-table");
+    }
+
+    private void configRoute() {
+        String viewPath = "ku/cs/views/";
+        FXRouter.when("hello", viewPath + "hello-view.fxml");
+        FXRouter.when("student-profile", viewPath + "student.fxml");
+        FXRouter.when("student-list", viewPath + "student-list.fxml");
+        FXRouter.when("students-table", viewPath + "students-table.fxml");
+        FXRouter.when("student-score", viewPath + "student-score.fxml");
     }
 
     public static void main(String[] args) {
