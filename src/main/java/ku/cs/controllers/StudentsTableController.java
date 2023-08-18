@@ -1,5 +1,7 @@
 package ku.cs.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -7,7 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import ku.cs.models.Student;
 import ku.cs.models.StudentList;
 import ku.cs.services.Datasource;
+import ku.cs.services.FXRouter;
 import ku.cs.services.StudentListFileDatasource;
+
+import java.io.IOException;
 
 public class StudentsTableController {
 
@@ -22,6 +27,20 @@ public class StudentsTableController {
         datasource = new StudentListFileDatasource("data", "student-list.csv");
         studentList = datasource.readData();
         showTable(studentList);
+
+        studentsTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Student>() {
+            @Override
+            public void changed(ObservableValue observable, Student oldValue, Student newValue) {
+                if (newValue != null) {
+                    try {
+                        // FXRouter.goTo สามารถส่งข้อมูลไปยังหน้าที่ต้องการได้ โดยกำหนดเป็น parameter ที่สอง
+                        FXRouter.goTo("student-score", newValue.getId());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
     }
 
     private void showTable(StudentList studentList) {
