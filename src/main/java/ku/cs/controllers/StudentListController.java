@@ -11,7 +11,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import ku.cs.models.Student;
 import ku.cs.models.StudentList;
+import ku.cs.services.FXRouter;
 import ku.cs.services.StudentHardCodeDatasource;
+
+import java.io.IOException;
 
 public class StudentListController {
     @FXML
@@ -73,5 +76,14 @@ public class StudentListController {
         idLabel.setText("");
         nameLabel.setText("");
         scoreLabel.setText("");
+    }
+
+    @FXML
+    public void onBackButtonClick() {
+        try {
+            FXRouter.goTo("hello");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
