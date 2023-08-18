@@ -11,10 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import ku.cs.models.Student;
 import ku.cs.models.StudentList;
-import ku.cs.services.Datasource;
-import ku.cs.services.FXRouter;
-import ku.cs.services.StudentHardCodeDatasource;
-import ku.cs.services.StudentListHardCodeDatasource;
+import ku.cs.services.*;
 
 import java.io.IOException;
 
@@ -36,7 +33,9 @@ public class StudentListController {
     public void initialize() {
         clearStudentInfo();
 //        StudentHardCodeDatasource datasource = new StudentHardCodeDatasource();
-        Datasource<StudentList> datasource = new StudentListHardCodeDatasource();
+//        Datasource<StudentList> datasource = new StudentListHardCodeDatasource();
+        // เปลี่ยนเป็นการอ่านข้อมูลทั้งหมดจากไฟล์นอกโปรเจค
+        Datasource<StudentList> datasource = new StudentListFileDatasource("data", "student-list.csv");
         studentList = datasource.readData();
         showList(studentList);
         studentInfoPane.setVisible(false);
